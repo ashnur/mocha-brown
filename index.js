@@ -9,18 +9,19 @@ void function(root){
         , addMochaDiv = ";var mochadiv = document.createElement('div');"+
                         "mochadiv.id = 'mocha';" +
                         "document.body.appendChild(mochadiv);"
+        , finished = require('tap-finished')
         , through = require('through')
 
     function fileToString(path){
         return fs.readFileSync(path).toString()
     }
 
-    browser.pipe(through(function(buf){
-            this.queue(buf)
-            if(buf.toString().indexOf('# fail') === 0 ) {
-                browser.stop()
-            }
-        }, function(){ this.queue(null);})).pipe(process.stdout)
+    browser.pipe(through(function(chunk){
+        process.stdout.write(chunk)
+        this.queue(chunk)
+    })).pipe(finished(function(results){
+        browser.stop()
+    }))
 
     b.add(argv[0])
     browser.write(addMochaDiv+
