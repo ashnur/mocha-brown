@@ -1,2 +1,6 @@
+# Install
+`npm instal -g mocha-run`
+
 # Usage
-node mocha-run/index.js &lt;absolute path to tests entry point&gt;
+`mocha-run test/test.js`
+
