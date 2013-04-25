@@ -2,7 +2,8 @@ void function(root){
     //start listener
     var argv = require('optimist').argv._
         , browserify = require('browserify')
-        , b = browserify(argv[0])
+        , testfile = require('path').resolve(argv[0])
+        , b = browserify(testfile)
         , run = require('browser-run')
         , browser = run()
         , fs = require('fs')
@@ -23,7 +24,7 @@ void function(root){
         browser.stop()
     }))
 
-    b.add(argv[0])
+    b.add(testfile)
     browser.write(addMochaDiv+
             fileToString(__dirname+'/mocha.js')+
             fileToString(__dirname+'/tap.js')+
