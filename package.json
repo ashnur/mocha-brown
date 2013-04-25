@@ -7,7 +7,6 @@
       "mocha-run": "bin/mocha-run.js"
   },
   "dependencies": {
-    "totemizer": "~0.0.2",
     "optimist": "~0.4.0",
     "mocha": "~1.9.0",
     "tap-finished": "0.0.0",

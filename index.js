@@ -2,7 +2,6 @@ void function(root){
 
 
     var browserify = require('browserify')
-        , browser = require('browser-run')()
         , fs = require('fs')
         , addMochaDiv = ";var mochadiv = document.createElement('div');"+
                         "mochadiv.id = 'mocha';" +
@@ -12,14 +11,18 @@ void function(root){
 
     function fileToString(path){ return fs.readFileSync(path).toString() }
 
-    module.exports = function(testfile){
+    module.exports = function(testfile, end){
 
         var b = browserify(testfile)
+            , browser = require('browser-run')()
 
         browser.pipe(through(function(chunk){
             process.stdout.write(chunk)
             this.queue(chunk)
-        })).pipe(finished(function(results){ browser.stop() }))
+        })).pipe(finished(function(results){
+            browser.stop()
+            if (end) end()
+        }))
 
         b.add(testfile)
         browser.write(addMochaDiv+
