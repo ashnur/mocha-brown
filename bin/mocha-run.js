@@ -1,13 +1,24 @@
 #!/usr/bin/env node
-require('better-stack-traces')
 var mocharun = require('../index.js')
     , argv = require('optimist').argv._
     , glob = require('glob')
     , path = require('path')
     , async = require('async')
 
-glob(argv[0], {nonull:false}, function(err, files){
-    if ( err ) throw err
-    var testfiles = files.map(function(file){ return path.resolve(file) })
-    async.eachSeries(testfiles, mocharun)
-})
+
+function getFiles(list){
+    var files = []
+    list.forEach(function(pattern){
+        glob(pattern, {nonull:false, sync:true}, function(err, matches){
+            if ( err ) throw err
+            files = files.concat(matches.map(function(m){
+                return path.resolve(m)
+            }))
+        })
+    })
+    return files
+}
+
+var testfiles = getFiles(argv)
+
+async.eachSeries(testfiles, mocharun)

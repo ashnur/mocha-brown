@@ -4,7 +4,7 @@
   "version": "0.0.3",
   "main": "index.js",
   "bin": {
-      "mocha-run": "bin/mocha-run.js"
+    "mocha-run": "bin/mocha-run.js"
   },
   "dependencies": {
     "optimist": "~0.4.0",
@@ -12,7 +12,9 @@
     "tap-finished": "0.0.0",
     "browserify": "~2.13.2",
     "browser-run": "~0.0.5",
-    "through": "~2.3.1"
+    "through": "~2.3.1",
+    "glob": "~3.2.1",
+    "async": "~0.2.7"
   },
   "repository": {
     "type": "git",
