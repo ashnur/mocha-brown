@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-require('better-stack-traces')
 
 function next(){ if(stack.length) stack.shift()() }
 
