@@ -1,6 +1,7 @@
 #!/usr/bin/env node
+require('better-stack-traces')
 
-function next(){ stack.shift()() }
+function next(){ if(stack.length) stack.shift()() }
 
 function getFiles(list){
     var files = []
@@ -26,3 +27,4 @@ var mocharun = require('../index.js')
                     : function(){ mocharun(file, next) }
     })
 
+next()

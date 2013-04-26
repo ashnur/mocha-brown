@@ -35,7 +35,7 @@ void function(root){
                 fileToString(__dirname+'/tap.js')+
                 ";mocha.setup({ui:'bdd',reporter:TAP})")
 
-        b.bundle({debug: true}).on('end', function(){
+        b.bundle({debug:true}).on('end', function(){
             browser.end(";mocha.checkLeaks();window.addEventListener('load',function(){mocha.run()});")
         }).pipe(browser, {end:false})
 
