@@ -11,10 +11,15 @@ void function(root){
 
     function fileToString(path){ return fs.readFileSync(path).toString() }
 
-    module.exports = function(testfile, end){
+    module.exports = function(testfile, port, end){
+
+        if ( typeof port == 'function' ) {
+            end = port
+            port = undefined
+        }
 
         var b = browserify(testfile)
-            , browser = require('browser-run')()
+            , browser = require('browser-run')(port)
 
         browser.pipe(through(function(chunk){
             process.stdout.write(chunk)
@@ -30,7 +35,7 @@ void function(root){
                 fileToString(__dirname+'/tap.js')+
                 ";mocha.setup({ui:'bdd',reporter:TAP})")
 
-        b.bundle().on('end', function(){
+        b.bundle({debug: true}).on('end', function(){
             browser.end(";mocha.checkLeaks();window.addEventListener('load',function(){mocha.run()});")
         }).pipe(browser, {end:false})
 
