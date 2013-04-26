@@ -1,10 +1,6 @@
 #!/usr/bin/env node
-var mocharun = require('../index.js')
-    , argv = require('optimist').argv._
-    , glob = require('glob')
-    , path = require('path')
-    , async = require('async')
 
+function next(){ stack.shift()() }
 
 function getFiles(list){
     var files = []
@@ -19,6 +15,14 @@ function getFiles(list){
     return files
 }
 
-var testfiles = getFiles(argv)
+var mocharun = require('../index.js')
+    , argv = require('optimist').argv
+    , glob = require('glob')
+    , path = require('path')
+    , testfiles = getFiles(argv._)
+    , port = argv.port
+    , stack = testfiles.map(function(file){
+        return port ? function(){ mocharun(file, port, next) }
+                    : function(){ mocharun(file, next) }
+    })
 
-async.eachSeries(testfiles, mocharun)
