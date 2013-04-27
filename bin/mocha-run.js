@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 
-function next(){ if(stack.length) stack.shift()() }
+function next(notok){
+    if ( stack.length ) {
+        stack.shift()()
+        if ( notok ) ok = false
+    } else {
+        process.exit(Number(notok))
+    }
+}
 
 function getFiles(list){
     var files = []
@@ -25,5 +32,6 @@ var mocharun = require('../index.js')
         return port ? function(){ mocharun(file, port, next) }
                     : function(){ mocharun(file, next) }
     })
+    , ok = true
 
 next()

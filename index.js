@@ -26,7 +26,9 @@ void function(root){
             this.queue(chunk)
         })).pipe(finished(function(results){
             browser.stop()
-            if (end) end()
+            if (end) {
+                end(results.fail.length > 0)
+            }
         }))
 
         b.add(testfile)
