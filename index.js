@@ -8,6 +8,7 @@ void function(root){
                         "document.body.appendChild(mochadiv);"
         , finished = require('tap-finished')
         , through = require('through')
+        , brfs = require('brfs')
 
     function fileToString(path){ return fs.readFileSync(path).toString() }
 
@@ -32,6 +33,7 @@ void function(root){
         }))
 
         b.add(testfile)
+        b.transform(brfs)
         browser.write(addMochaDiv+
                 fileToString(__dirname+'/mocha.js')+
                 fileToString(__dirname+'/tap.js')+
