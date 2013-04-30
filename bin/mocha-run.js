@@ -28,9 +28,9 @@ var mocharun = require('../index.js')
     , path = require('path')
     , testfiles = getFiles(argv._)
     , port = argv.port
+    , debug = argv.debug
     , stack = testfiles.map(function(file){
-        return port ? function(){ mocharun(file, port, next) }
-                    : function(){ mocharun(file, next) }
+        return function(){ mocharun(file, next, {port: port, debug: debug}) }
     })
     , ok = true
 
