@@ -22,7 +22,7 @@ void function(root){
             process.stdout.write(chunk)
             this.queue(chunk)
         })).pipe(finished(function(results){
-            browser.stop()
+//            browser.stop()
             if (end) {
                 end(results.fail.length > 0)
             }
@@ -32,8 +32,9 @@ void function(root){
         b.transform(brfs)
         browser.write(addMochaDiv+
                 fileToString(__dirname+'/mocha.js')+
-                fileToString(__dirname+'/tap.js')+
-                ";mocha.setup({ui:'bdd',reporter:TAP})")
+                ( ! opts.debug ? fileToString(__dirname+'/tap.js') +
+                                    ";mocha.setup({ui:'bdd',reporter:TAP})"
+                               : ";mocha.setup({ui:'bdd'})"))
 
         b.bundle({debug:opts.debug}).on('end', function(){
             browser.end(";mocha.checkLeaks();window.addEventListener('load',function(){mocha.run()});")
