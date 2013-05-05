@@ -1,7 +1,7 @@
 {
   "name": "mocha-brown",
   "description": "Run mocha tests in phantomjs and receive the results in the CLI",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "main": "index.js",
   "bin": {
     "mocha-brown": "bin/mocha-brown.js"
